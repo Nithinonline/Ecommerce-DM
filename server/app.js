@@ -1,12 +1,15 @@
 const express =require("express");
 const ErrorHandler=require("./middlewares/Error");
+const user=require("./routes/user")
+const product=require("./routes/product")
 
 const app=express();
 
 
 
 app.use(express.json())
-
+app.use("/api/auth",user);
+app.use("/api/product",product)
 
 
 //For Error handling

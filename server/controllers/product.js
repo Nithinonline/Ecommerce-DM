@@ -1,6 +1,6 @@
 const ErrorHandler = require('../utils/ErrorHandler')
-const Product=require("../Model/product")
-const User=require("../Model/user")
+const Product = require("../Model/product")
+const User = require("../Model/user")
 
 //Product Add
 const addProduct = async (req, res, next) => {
@@ -10,21 +10,26 @@ const addProduct = async (req, res, next) => {
         if (!user) {
             return next(new ErrorHandler("Admin not found", 404))
         }
-        const { category, name, description, image_Url, price } = req.body;
-        if (!category || !name || !description || !image_Url || !price) {
-            return next(new ErrorHandler("Please provide all required fields", 400))
+        if (user.role == "admin") {
+
+            const { category, name, description, image_Url, price } = req.body;
+            if (!category || !name || !description || !image_Url || !price) {
+                return next(new ErrorHandler("Please provide all required fields", 400))
+            }
+
+            const createProduct = await Product.create({
+                category,
+                name,
+                description,
+                image_Url,
+                price
+
+            })
+
+            return res.status(200).json(createProduct)
+        } else {
+            return next(new ErrorHandler("You are not allowed to add product", 400))
         }
-
-        const createProduct = await Product.create({
-            category,
-            name,
-            description,
-            image_Url,
-            price
-
-        })
-
-        return res.status(200).json(createProduct)
     } catch (error) {
         return next(new ErrorHandler(error.message, 500))
     }
@@ -45,8 +50,8 @@ const getAllProducts = async (req, res, next) => {
 const getSingleProduct = async (req, res, next) => {
 
     try {
-        const { id: productId } = req.params;
-        const product = await Product.findOne({ _id: productId });
+        const { id: id } = req.params;
+        const product = await Product.findOne({ _id: id });
         if (!product) {
             return next(new ErrorHandler(`No product with id: ${productId}`, 404));
         }
@@ -65,24 +70,28 @@ const updateProduct = async (req, res, next) => {
         if (!user) {
             return next(new ErrorHandler("Admin not found", 404))
         }
-        const productDetails = await Product.findByIdAndUpdate(req.params.id, {
-            $set: {
-                category: req.body.category,
-                name: req.body.name,
-                description: req.body.description,
-                image_Url: req.body.image_Url,
-                price: req.body.price,
+        if (user.role == "admin") {
+            const productDetails = await Product.findByIdAndUpdate(req.params.id, {
+                $set: {
+                    category: req.body.category,
+                    name: req.body.name,
+                    description: req.body.description,
+                    image_Url: req.body.image_Url,
+                    price: req.body.price,
+                }
+            }, {
+                new: true,
+                runValidators: true,
+            })
+
+            if (!productDetails) {
+                return next(new ErrorHandler(`No product with id: ${req.params.id}`, 404))
             }
-        }, {
-            new: true,
-            runValidators: true,
-        })
 
-        if (!productDetails) {
-            return next(new ErrorHandler(`No product with id: ${req.params.id}`, 404))
+            res.status(200).json(productDetails)
+        } else {
+            return next(new ErrorHandler("You are not allowed to update product", 400))
         }
-
-        res.status(200).json(productDetails)
     } catch (error) {
         return next(new ErrorHandler(error.message, 500))
     }
@@ -98,13 +107,16 @@ const deleteproduct = async (req, res, next) => {
         if (!user) {
             return next(new ErrorHandler("Admin not found", 404))
         }
-
-        const { id: productId } = req.params;
-        const product = await Product.findOneAndDelete({ _id: productId });
-        if (!product) {
-            return next(new ErrorHandler(`No product with id: ${productId}`, 404));
+        if (user.role == "admin") {
+            const { id: productId } = req.params;
+            const product = await Product.findOneAndDelete({ _id: productId });
+            if (!product) {
+                return next(new ErrorHandler(`No product with id: ${productId}`, 404));
+            }
+            res.status(200).json("Product deleted successfully");
+        } else {
+            return next(new ErrorHandler("You are not allowed to delete product", 400))
         }
-        res.status(200).json("Product deleted successfully");
     } catch (error) {
         return next(new ErrorHandler(error.message, 400))
     }
@@ -112,7 +124,32 @@ const deleteproduct = async (req, res, next) => {
 
 }
 
-module.exports = {addProduct,getAllProducts, getSingleProduct, updateProduct, deleteproduct }
+//Add Product to cart
+
+const addToCart = async (req, res, next) => {
+    try {
+        const { productId, userId } = req.params;
+        const product = await Product.findOne({ _id: productId })
+        if (!product) {
+            return next(new ErrorHandler(`No product with id ${productId}`, 400))
+        }
+        const user = await User.findOne({ _id: userId })
+        if (!user) {
+            return next(new ErrorHandler(`No user with id ${userId}`, 400))
+        }
+
+        const updatedUser=await User.findByIdAndUpdate({_id:userId},{
+            
+        })
+        res.status(200).json(user)
+
+
+    } catch (error) {
+        return next(new ErrorHandler(error.message, 500))
+    }
+}
+
+module.exports = { addProduct, getAllProducts, getSingleProduct, updateProduct, deleteproduct, addToCart }
 
 
 

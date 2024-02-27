@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user'
     },
+    cart:{
+        type:Array,
+        default:[]
+    },
     createdAt: {
         type: Date,
         default: Date.now(),

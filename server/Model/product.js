@@ -8,11 +8,12 @@ const productSchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required: [true, "Please enter the product name "]
+        required: [true, "Please enter the product name"],
+        unique:[true,'Already a product exist in this name']
     },
     description: {
         type: String,
-        required: [true, "Please enter product description"]
+        required: [true, "Please enter product description"]  
     },
     image_Url: {
         type: String,
