@@ -60,4 +60,41 @@ const login = async (req, res, next) => {
 }
 
 
-module.exports = { signup, login }
+const updateUserCart=async(req,res,next)=>{
+    try {
+        const { userId } = req.params
+        const user = await User.findById({ _id: userId })
+        if (!user) {
+            return next(new ErrorHandler("user not found", 404))
+        }
+        if (user.role == "user") {
+            const userCart = await Product.findByIdAndUpdate(req.params.id, {
+                $set: {
+                    
+                    name: req.body.name,
+                    email:req.body.email,
+                    cart:req.body.cart
+                }
+            }, {
+                new: true,
+                runValidators: true,
+            })
+
+            console.log(userCart)
+
+            if (!productDetails) {
+                return next(new ErrorHandler(`No product with id: ${req.params.id}`, 404))
+            }
+
+            res.status(200).json(userCart)
+        } else {
+            return next(new ErrorHandler("You are not allowed to update product", 400))
+        }
+    } catch (error) {
+        return next(new ErrorHandler(error.message, 500))
+    }
+}
+
+
+
+module.exports = { signup, login,updateUserCart }

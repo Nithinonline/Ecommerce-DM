@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import ProductList from '../components/ProductList'
+import Cart from '../components/Cart'
 
 
 const HomePage = () => {
@@ -10,6 +11,7 @@ const HomePage = () => {
             <Navbar />
             <Hero />
             <ProductList/>
+            <Cart/>
             
         </>
     )

@@ -9,10 +9,13 @@
     import { useEffect } from 'react';
     import axios from "axios"
     import { useState } from 'react';
+import Cart from './Cart';
 
     const ProductList = () => {
 
         const[productList,setProductList]=useState([])
+        const[cartItems,setCartItems]=useState([])
+        
 
         const getProducts = async () => {
             await axios
@@ -25,11 +28,16 @@
         getProducts()
         },[])
 
-        console.log(productList)
+    useEffect(()=>{
+      console.log("useEffect")
+      console.log(cartItems)
+    },[cartItems])
+
+
 
         return (
             <div style={{
-                display: "flex",
+                   display: "flex",
                 flexWrap:"wrap",
                 justifyContent: "center",
                 padding: "5vh",
@@ -80,11 +88,17 @@
                             color="primary"
                             aria-label="Explore Bahamas Islands"
                             sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
+                            onClick={()=>{
+                                console.log("cart clicked")
+                                cartItems.push(item._id)
+                            }}
+                        
                         >
                            Add to Cart
                         </Button>
                     </CardContent>
                 </Card>
+              
                 </>
                 )})
     }
