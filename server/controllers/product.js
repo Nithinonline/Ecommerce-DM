@@ -126,30 +126,8 @@ const deleteproduct = async (req, res, next) => {
 
 //Add Product to cart
 
-const addToCart = async (req, res, next) => {
-    try {
-        const { productId, userId } = req.params;
-        const product = await Product.findOne({ _id: productId })
-        if (!product) {
-            return next(new ErrorHandler(`No product with id ${productId}`, 400))
-        }
-        const user = await User.findOne({ _id: userId })
-        if (!user) {
-            return next(new ErrorHandler(`No user with id ${userId}`, 400))
-        }
 
-        const updatedUser=await User.findByIdAndUpdate({_id:userId},{
-            
-        })
-        res.status(200).json(user)
-
-
-    } catch (error) {
-        return next(new ErrorHandler(error.message, 500))
-    }
-}
-
-module.exports = { addProduct, getAllProducts, getSingleProduct, updateProduct, deleteproduct, addToCart }
+module.exports = { addProduct, getAllProducts, getSingleProduct, updateProduct, deleteproduct }
 
 
 
