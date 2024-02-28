@@ -25,6 +25,8 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Avatar } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 
 
@@ -45,7 +47,17 @@ const ProductTable = () => {
 
     useEffect(() => {
         getProducts()
-    }, [])
+    }, [products])
+
+
+    const handleDelete=(id)=>{
+        axios.delete(`http://localhost:5500/api/product/delete/${id}/65dde1ca63e78ffd6191eece`)
+        .then((res)=>{
+            console.log(res.data)
+        })
+        .catch((err)=>console.log(err))
+    }
+    
 
   return (
     <>
@@ -74,6 +86,11 @@ const ProductTable = () => {
                 <Avatar alt={product.name} src={product.image_Url} />
               </TableCell>
               <TableCell>${product.price.toFixed(2)}</TableCell>
+                   <TableCell>
+                    <div onClick={()=>handleDelete(product._id)}>
+                    <DeleteIcon/>
+                    </div>
+                    </TableCell>
             </TableRow>
           ))}
         </TableBody>

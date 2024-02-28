@@ -13,10 +13,11 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/
 import axios from 'axios';
 
 
-const AddProductForm = () => {
+const EditProduct = () => {
 
 
     const [formData, setFormData] = useState({
+        id:'',
         category: '',
         name: '',
         description: '',
@@ -38,10 +39,9 @@ const AddProductForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Assuming that onAddProduct is a function to handle adding the product
-        onAddProduct(formData);
-        // You can also reset the form after submission if needed
+        onEditProduct(formData);
         setFormData({
+            id:'',
             category: '',
             name: '',
             description: '',
@@ -50,8 +50,8 @@ const AddProductForm = () => {
         });
     };
 
- const onAddProduct=async(formdata)=>{
-    axios.post("http://localhost:5500/api/product/create/65dde1ca63e78ffd6191eece",{
+ const onEditProduct=async(formdata)=>{
+    axios.patch(`http://localhost:5500/api/product/update/${formdata.id}/65dde1ca63e78ffd6191eece`,{
         category:formdata.category,
         name:formdata.name,
         description:formData.description,
@@ -132,13 +132,22 @@ const AddProductForm = () => {
 
 
     return (
-        <Container component="main" maxWidth="sm" sx={{ marginTop: "10vh", marginBottom: "10vh", }}>
-            <Paper elevation={3} sx={{ padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', }}>
+        <Container component="main" maxWidth="sm" sx={{ marginTop: "10vh", marginBottom: "10vh" }}>
+            <Paper elevation={3} sx={{ padding: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography component="h2" variant="h4">
-                    Add Product
+                    Edit Product
                 </Typography>
                 <form onSubmit={handleSubmit} style={{ width: '100%', marginTop: 1 }}>
-                    <Grid container spacing={4}>
+                    <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                label="Product id"
+                                name="id"
+                                value={formData.id}
+                                onChange={handleChange}
+                            />
+                        </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 fullWidth
@@ -190,12 +199,12 @@ const AddProductForm = () => {
                     </Grid>
                     {!uploaded ? (
                         <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleUpload}>
-                            Upload
+                            Upload Edit
                         </Button>
                     ) : (
 
                         <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleSubmit}>
-                            Add Product
+                            Complete Edit
                         </Button>
                     )}
                 </form>
@@ -204,4 +213,4 @@ const AddProductForm = () => {
     );
 };
 
-export default AddProductForm;
+export default EditProduct;

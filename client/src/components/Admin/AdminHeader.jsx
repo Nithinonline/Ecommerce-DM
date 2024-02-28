@@ -8,6 +8,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Avatar,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -33,8 +34,9 @@ const AdminHeader = () => {
         <MenuIcon />
       </IconButton>
       <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold', letterSpacing: 1 }}>
-        SnitchIt
+        SnitchIt Admin 
       </Typography>
+      <Avatar>A</Avatar>
     </Toolbar>
   </AppBar>
 
