@@ -48,6 +48,9 @@ const EditProduct = () => {
             image_Url: '',
             price: '',
         });
+        setImage_Url('')
+        setUploaded('')
+        window.location.reload()
     };
 
  const onEditProduct=async(formdata)=>{

@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Box, Button, Link, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import axios from 'axios'
 import {useNavigate} from "react-router-dom"
@@ -96,8 +96,9 @@ const handleSubmit=(e)=>{
         }}
         onChange={handleChange}
         />
-
-        <Button variant='contained' type='submit'>Signup</Button>
+        <Link href="/login">Already have a account? Login</Link>
+        
+        <Button variant='contained' type='submit' sx={{marginTop:"5px"}}>Signup</Button>
       </Box>
 
     </form>

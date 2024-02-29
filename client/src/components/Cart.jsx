@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import {
-    Badge,
-    IconButton,
     Drawer,
     List,
     ListItem,
@@ -9,19 +7,20 @@ import {
     Typography,
     ListItemAvatar,
     Avatar,
-    ListItemButton,
+    Button,
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import { useContext } from 'react';
+import { CartContext } from '../context/cartContext';
 
 const Cart = ({ isOpen, handleClose }) => {
-    // Replace this with your actual cart items data
-    const cartItems = [
-        { id: 1, name: 'Item 1', price: 10, image_Url: "https://img.freepik.com/free-photo/smartphone-balancing-with-pink-background_23-2150271746.jpg?size=338&ext=jpg&ga=GA1.1.98259409.1709078400&semt=sph",Quantity:2 },
-        { id: 2, name: 'Item 2', price: 15, image_Url: "https://img.freepik.com/free-photo/smartphone-balancing-with-pink-background_23-2150271746.jpg?size=338&ext=jpg&ga=GA1.1.98259409.1709078400&semt=sph",Quantity:4 },
-        { id: 3, name: 'Item 3', price: 20, image_Url: "https://img.freepik.com/free-photo/smartphone-balancing-with-pink-background_23-2150271746.jpg?size=338&ext=jpg&ga=GA1.1.98259409.1709078400&semt=sph",Quantity:1 },
-    ];
+ 
+    const { addItemToCart,cartTotal,cartItems,removeItemFromCart } = useContext(CartContext)
 
-    const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
 
+    console.log(cartItems)
+   
     return (
         <Drawer anchor="right" open={isOpen} onClose={handleClose}>
             <List sx={{ width: 300,
@@ -35,15 +34,22 @@ const Cart = ({ isOpen, handleClose }) => {
                             <Avatar alt={item.name} src={item.image_Url} />
                         </ListItemAvatar>
                         <ListItemText primary={item.name} secondary={`$${item.price}`} />
-                        <ListItemText>Qty: {item.Quantity}</ListItemText>
+
+                        <div style={{display:"flex", alignItems:"center",flexDirection:"column"}}>
+                        <RemoveIcon onClick={()=>removeItemFromCart(item)}/>
+                        <ListItemText>Qty: {item.quantity}</ListItemText>
+                        <AddIcon onClick={()=>addItemToCart(item)}/>
+                        </div>
                     </ListItem>
                 ))}
                 <ListItem>
                     <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                        Total: ${totalPrice}
+                        Total: ${cartTotal}
                     </Typography>
                 </ListItem>
             </List>
+
+            <Button>Checkout</Button>
         </Drawer>
     );
 };

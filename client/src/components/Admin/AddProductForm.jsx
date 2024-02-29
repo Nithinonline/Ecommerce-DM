@@ -48,6 +48,9 @@ const AddProductForm = () => {
             image_Url: '',
             price: '',
         });
+        setImage_Url('')
+        setUploaded('')
+        window.location.reload()
     };
 
  const onAddProduct=async(formdata)=>{
