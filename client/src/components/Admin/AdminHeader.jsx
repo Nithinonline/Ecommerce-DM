@@ -11,11 +11,9 @@ import {
   Avatar,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const AdminHeader = () => {
   const [isDrawerOpen, setisDrawerOpen] = useState(false);
-  const [isDrawerRightOpen, setisDrawerRightOpen] = useState(false);
 
 
 

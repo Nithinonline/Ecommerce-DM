@@ -17,7 +17,6 @@ const ProductList = () => {
     const { addItemToCart } = useContext(CartContext)
 
     const [productList, setProductList] = useState([])
-    const [cartItems, setCartItems] = useState([])
 
 
     const getProducts = async () => {
@@ -57,8 +56,10 @@ const ProductList = () => {
                                 width: 320,
                                 minWidth: "320px",
                                 margin: "10px"
-                            }}>
-                                <div key={index}>
+                            }}
+                            
+                            >
+                                <div>
                                     <Typography level="title-lg">{item.name}</Typography>
                                     <Typography level="body-xs">{item.category}</Typography>
                                     <Typography level="body-sm">{item.description}</Typography>
@@ -70,7 +71,6 @@ const ProductList = () => {
                                         size="sm"
                                         sx={{ position: 'absolute', top: '0.875rem', right: '0.5rem' }}
                                     >
-                                        <BookmarkAdd />
                                     </IconButton>
                                 </div>
                                 <AspectRatio minHeight="120px" maxHeight="200px">
@@ -100,7 +100,6 @@ const ProductList = () => {
                                     </Button>
                                 </CardContent>
                             </Card>
-
                         </>
                     )
                 })

@@ -54,10 +54,11 @@ const EditProduct = () => {
     };
 
  const onEditProduct=async(formdata)=>{
-    axios.patch(`http://localhost:5500/api/product/update/${formdata.id}/65dde1ca63e78ffd6191eece`,{
+   await  axios.patch(`http://localhost:5500/api/product/update/${formdata.id}/65dde1ca63e78ffd6191eece`,{
+      
         category:formdata.category,
         name:formdata.name,
-        description:formData.description,
+        description:formdata.description,
         image_Url:formdata.image_Url,
         price:formdata.price
     })

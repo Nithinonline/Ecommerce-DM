@@ -15,16 +15,17 @@ import { useContext } from 'react';
 import { CartContext } from '../context/cartContext';
 
 const Cart = ({ isOpen, handleClose }) => {
- 
-    const { addItemToCart,cartTotal,cartItems,removeItemFromCart } = useContext(CartContext)
+
+    const { addItemToCart, cartTotal, cartItems, removeItemFromCart,clearItemFromCart } = useContext(CartContext)
 
 
     console.log(cartItems)
-   
+
     return (
         <Drawer anchor="right" open={isOpen} onClose={handleClose}>
-            <List sx={{ width: 300,
-             }}>
+            <List sx={{
+                width: 300,
+            }}>
                 <ListItem>
                     <Typography variant="h6">Shopping Cart</Typography>
                 </ListItem>
@@ -35,10 +36,10 @@ const Cart = ({ isOpen, handleClose }) => {
                         </ListItemAvatar>
                         <ListItemText primary={item.name} secondary={`$${item.price}`} />
 
-                        <div style={{display:"flex", alignItems:"center",flexDirection:"column"}}>
-                        <RemoveIcon onClick={()=>removeItemFromCart(item)}/>
-                        <ListItemText>Qty: {item.quantity}</ListItemText>
-                        <AddIcon onClick={()=>addItemToCart(item)}/>
+                        <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+                            <RemoveIcon onClick={() => removeItemFromCart(item)} />
+                            <ListItemText>Qty: {item.quantity}</ListItemText>
+                            <AddIcon onClick={() => addItemToCart(item)} />
                         </div>
                     </ListItem>
                 ))}
@@ -49,7 +50,9 @@ const Cart = ({ isOpen, handleClose }) => {
                 </ListItem>
             </List>
 
-            <Button>Checkout</Button>
+            <Button  variant='contained' color='primary' style={{ width: "130px", marginLeft: "auto", marginRight: "auto" }}>
+                Checkout
+            </Button>
         </Drawer>
     );
 };
